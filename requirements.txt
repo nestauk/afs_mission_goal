@@ -1,0 +1,15 @@
+pandas
+numpy
+scipy
+# Uncomment after running make install, run pip install -r requirements.txt or just pip install it separately
+# nesta_ds_utils[viz,s3] @ git+https://github.com/nestauk/nesta_ds_utils.git
+# Still working on fixing the afs_mission_indicators install so leave as a comment for now
+# git+https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/nestauk/afs_mission_indicators.git
+geopandas
+matplotlib
+altair
+altair_saver
+ydata_profiling
+upsetplot
+quarto
+folium
