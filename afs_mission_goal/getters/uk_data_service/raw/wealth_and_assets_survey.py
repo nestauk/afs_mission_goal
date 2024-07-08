@@ -1,6 +1,6 @@
 import pandas as pd
 from afs_mission_goal.utils.load_s3 import load_from_s3
-from afs_mission_goal.getters.uk_data_service.aux.get_wealth_and_assets_survey_dict import (
+from afs_mission_goal.getters.uk_data_service.misc.get_wealth_and_assets_survey_dict import (
     get_wealth_and_assets_survey_dict,
 )
 
