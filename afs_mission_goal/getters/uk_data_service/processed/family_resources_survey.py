@@ -1,5 +1,10 @@
+"""
+To read in the Family Resources Survey datasets from the UK Data Service, you have the option of two functions. One reads in every dataset into a dictionary where the key is the dataset name and the value is the pd.DataFrame. The second function allows you to read in individual datasets, with an argument to say which dataset you want to read in.
+"""
+
 import pandas as pd
 from nesta_ds_utils.loading_saving.S3 import download_obj
+
 
 BUCKET = "afs-uk-data-service"
 frs_datasets = [
