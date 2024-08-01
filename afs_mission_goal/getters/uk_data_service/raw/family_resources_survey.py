@@ -227,3 +227,15 @@ def get_tables_data() -> pd.DataFrame:
     """
     path = "raw/family_resources_survey/2022/tables.dta"
     return load_from_s3(path, bucket=BUCKET)
+
+
+def get_raw_frs_data(path: str) -> pd.DataFrame:
+    """Function to load the Family Resources Survey data from the UK Data Service.
+
+    Args:
+        path (str): Path to the data file.
+    Returns:
+        pd.DataFrame: Family Resources Survey data.
+    """
+    path = f"raw/family_resources_survey/2022/{path}.dta"
+    return load_from_s3(path, bucket=BUCKET)
