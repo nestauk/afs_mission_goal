@@ -47,6 +47,14 @@ def create_child_adult_base_df(
         .rename(columns={"age_of_child_last_birthday": "num_children_under_5"})
     )
 
+    child_all = (
+        child_data[["sernum", "age_of_child_last_birthday"]]
+        .groupby("sernum")
+        .count()
+        .reset_index()
+        .rename(columns={"age_of_child_last_birthday": "num_children"})
+    )
+
     # Finding the number of adults
     adults = (
         filtered_data["adult"]
@@ -59,12 +67,14 @@ def create_child_adult_base_df(
 
     # Creating the base dataframe with the number of children under 5, number of adults, income and benefits for each household
     frs_base_df = (
-        children_0_5.merge(income_benefit, on="sernum", how="outer")
+        children_0_5.merge(child_all, on="sernum", how="outer")
+        .merge(income_benefit, on="sernum", how="outer")
         .merge(adults, on="sernum", how="outer")
         .replace(np.nan, 0)
     )[
         [
             "sernum",
+            "num_children",
             "num_children_under_5",
             "num_adults",
             "income",

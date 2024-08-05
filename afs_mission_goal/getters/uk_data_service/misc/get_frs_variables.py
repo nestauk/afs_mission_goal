@@ -8,10 +8,10 @@ def get_frs_variables_dict() -> dict:
         dict: Family resources survey column dictionary.
     """
     dictionary_of_datasets = {}
-    for variables in config["frs_datasets"]:
+    for variables, name in zip(config["frs_original_names"], config["frs_datasets"]):
         path = f"data/aux/frs_variables/{variables}_variables.json"
         try:
-            dictionary_of_datasets[variables] = download_obj(
+            dictionary_of_datasets[name] = download_obj(
                 DS_BUCKET, path_from=path, download_as="dict"
             )
         except:

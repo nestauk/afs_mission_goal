@@ -33,7 +33,7 @@ def create_frs_dataframes(
     """
 
     dict_keys = dict(zip(frs_datasets, frs_original_names))
-    #
+
     frs_vars = {}
     for key in all_vars.Dataset.unique().tolist():
         if dict_keys[key] in raw_frs_dict.keys():
@@ -43,13 +43,13 @@ def create_frs_dataframes(
                 all_vars.Dataset == key
             ].Original.tolist()
             raw_data = raw_data[cols_of_interest]
-            frs_vars[key] = raw_data
+            frs_vars[key] = raw_data.replace(np.nan, "").replace("nan", "")
 
     # Convert all numeric columns to floats
     for key in frs_vars.keys():
         for column in frs_vars[key].columns:
             try:
-                frs_vars[key].loc[:, column] = frs_vars[key][column].astype(float)
+                frs_vars[key][column] = pd.Series(frs_vars[key][column], dtype="float")
             except:
                 continue
 
@@ -64,21 +64,21 @@ def create_frs_dataframes(
     dictionary_dict = dictionary.set_index("VARIABLE")["LABEL"].to_dict()
 
     frs_vars_final = frs_vars.copy()
+
     for key in frs_vars_final.keys():
-        # Change the keys to upper case
-        try:
+        if key in frs_variables.keys():
             frs_variables[key] = {
-                key.upper(): value for key, value in frs_variables[key].items()
+                var_key.upper(): value for var_key, value in frs_variables[key].items()
             }
+
             for vars in frs_variables[key].keys():
                 if vars in frs_vars_final[key].columns:
-                    frs_vars_final[key].loc[:, vars] = str(frs_vars_final[key])[
-                        vars
-                    ].replace(frs_variables[key][vars])
-            frs_vars_final[key] = frs_vars_final[key].rename(columns=dictionary_dict)
-
-        except:
-            print(f"{key} not in frs_variables")
+                    frs_vars_final[key][vars] = (
+                        pd.Series(frs_vars_final[key][vars], dtype="string")
+                        .replace(frs_variables[key][vars])
+                        .str.capitalize()
+                        .str.strip()
+                    )
             frs_vars_final[key] = frs_vars_final[key].rename(columns=dictionary_dict)
 
     return frs_vars_final
