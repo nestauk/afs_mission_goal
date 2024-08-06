@@ -16,7 +16,7 @@ def clean_family_resources_survey(frs_data: pd.DataFrame) -> pd.DataFrame:
 
     for col in frs_data.columns:
         try:
-            new_columns.append(frs_dict[col])
+            new_columns.append(frs_columns[col])
         except:
             new_columns.append(col)
     frs_data.columns = new_columns
