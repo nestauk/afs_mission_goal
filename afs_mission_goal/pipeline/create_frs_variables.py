@@ -4,6 +4,7 @@ from afs_mission_goal.getters.uk_data_service.raw.family_resources_survey import
 from afs_mission_goal.getters.uk_data_service.misc.get_frs_variables import (
     get_frs_variables_dict,
 )
+from afs_mission_goal.utils.preprocessing import preprocess_strings
 from afs_mission_goal.utils.google_utils import access_google_sheet
 import numpy as np
 import pandas as pd
@@ -56,10 +57,7 @@ def create_frs_dataframes(
     dictionary = raw_frs_dict["dictnary"][["VARIABLE", "LABEL"]].copy()
     dictionary["VARIABLE"] = dictionary["VARIABLE"].str.upper()
     dictionary["LABEL"] = (
-        dictionary["LABEL"]
-        .str.replace(r"[^\w\s]", "", regex=True)
-        .str.replace(r"\s+", "_", regex=True)
-        .str.lower()
+        preprocess_strings(dictionary["LABEL"])
     )
     dictionary_dict = dictionary.set_index("VARIABLE")["LABEL"].to_dict()
 
