@@ -5,6 +5,7 @@ from afs_mission_goal.utils.preprocessing import preprocess_strings
 import pandas as pd
 import numpy as np
 from nesta_ds_utils.loading_saving import S3
+from afs_mission_goal import DS_BUCKET
 
 
 def clean_wealth_and_assets_survey(wealth_and_assets_survey_data: pd.DataFrame):
@@ -35,7 +36,7 @@ if __name__ == "__main__":
         # Saving cleaned data
         S3.upload_obj(
             obj=wealth_and_assets_person,
-            bucket="afs-uk-data-service",
+            bucket=DS_BUCKET,
             path_to=f"data/processed/wealth_and_assets_survey_person_wave_{i}.csv",
             kwargs_writing={"index": False},
         )
@@ -51,7 +52,7 @@ if __name__ == "__main__":
             # Saving cleaned data
             S3.upload_obj(
                 obj=wealth_and_assets_household,
-                bucket="afs-uk-data-service",
+                bucket=DS_BUCKET,
                 path_to=f"data/processed/wealth_and_assets_survey_household_wave_{i}.csv",
                 kwargs_writing={"index": False},
             )
@@ -66,7 +67,7 @@ if __name__ == "__main__":
                 # Saving cleaned data
                 S3.upload_obj(
                     obj=wealth_and_assets_household,
-                    bucket="afs-uk-data-service",
+                    bucket=DS_BUCKET,
                     path_to=f"data/processed/wealth_and_assets_survey_household_wave_{i}_{month}.csv",
                     kwargs_writing={"index": False},
                 )
