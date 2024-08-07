@@ -3,11 +3,12 @@ from afs_mission_goal.getters.uk_data_service.raw.family_resources_survey import
 from afs_mission_goal.getters.uk_data_service.misc.get_family_resources_survey_dict import (
     get_family_resources_survey_dict,
 )
-from afs_mission_goal import DS_BUCKET, frs_config
+from afs_mission_goal import DS_BUCKET, config
 from afs_mission_goal.utils.preprocessing import preprocess_strings
 from nesta_ds_utils.loading_saving import S3
 
-frs_datasets = frs_config["frs_datasets"]
+frs_datasets = config["frs_original_names"]
+frs_dataset_new_names = config["frs_datasets"]
 
 
 def clean_family_resources_survey(
@@ -38,12 +39,13 @@ def clean_family_resources_survey(
 
 if __name__ == "__main__":
     frs_columns = get_family_resources_survey_dict()
-    for dataset in frs_datasets:
-        frs_data = get_raw_frs_data(dataset)
+    old_and_new_names = dict(zip(frs_datasets, frs_dataset_new_names))
+    for original_dataset, new_dataset in old_and_new_names.items():
+        frs_data = get_raw_frs_data(original_dataset)
         frs_data = clean_family_resources_survey(frs_data, frs_columns)
         S3.upload_obj(
             obj=frs_data,
             bucket=DS_BUCKET,
-            path_to=f"data/processed/family_resources_survey_{dataset}.csv",
+            path_to=f"data/processed/family_resources_survey_{new_dataset}.csv",
             kwargs_writing={"index": False},
         )
