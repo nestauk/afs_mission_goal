@@ -124,7 +124,7 @@ if __name__ == "__main__":
         .replace("", np.nan)
         .dropna(subset=["Original", "Dataset"])
     )
-    all_vars = all_vars[all_vars.Original != "SERNUM"]
+    all_vars = all_vars[all_vars.Original != "SERNUM"].drop_duplicates(subset=["Original"], keep="first").reset_index(drop=True)
 
     # Create the FRS dataframes
     print("Creating the FRS dataframes")
