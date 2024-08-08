@@ -106,6 +106,9 @@ if __name__ == "__main__":
     outgoings = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Outgoings", row_names=False
     )
+    financial_planning = access_google_sheet(
+        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Financial_Planning", row_names=False
+    )
     demographics = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Demographics", row_names=False
     )
@@ -115,7 +118,7 @@ if __name__ == "__main__":
 
     # Combine the google sheets into one
     all_vars = (
-        pd.concat([incomings, outgoings, demographics], axis=0, ignore_index=True)[
+        pd.concat([incomings, outgoings, financial_planning, demographics], axis=0, ignore_index=True)[
             ["Variable", "Dataset", "Original"]
         ]
         .replace("", np.nan)
