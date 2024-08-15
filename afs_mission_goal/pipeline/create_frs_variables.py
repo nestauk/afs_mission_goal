@@ -58,9 +58,6 @@ def create_frs_dataframes(
     dictionary["VARIABLE"] = dictionary["VARIABLE"].str.upper()
     dictionary["LABEL"] = (
         preprocess_strings(dictionary["LABEL"])
-        #     .str.replace(r"[^\w\s]", "", regex=True)
-        #     .str.replace(r"\s+", "_", regex=True)
-        #     .str.lower()
     )
     dictionary_dict = dictionary.set_index("VARIABLE")["LABEL"].to_dict()
 
@@ -108,6 +105,9 @@ if __name__ == "__main__":
     )
     outgoings = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Outgoings", row_names=False
+    )
+    financial_planning = access_google_sheet(
+        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Financial_Planning", row_names=False
     )
     demographics = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Demographics", row_names=False

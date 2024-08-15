@@ -3,8 +3,8 @@ from afs_mission_goal.utils.load_s3 import load_from_s3
 from afs_mission_goal.getters.uk_data_service.misc.get_wealth_and_assets_survey_dict import (
     get_wealth_and_assets_survey_dict,
 )
+from afs_mission_goal import DS_BUCKET
 
-BUCKET = "afs-uk-data-service"
 dictionary = get_wealth_and_assets_survey_dict()
 
 
@@ -27,4 +27,4 @@ def get_wealth_and_assets_survey(
         fname = dictionary[f"wave_{wave}_{granularity}"]
         filename = f"{fname}.dta"
     path = "raw/wealth_and_assets_survey/" + filename
-    return load_from_s3(path, bucket="afs-uk-data-service")
+    return load_from_s3(path, bucket=DS_BUCKET)

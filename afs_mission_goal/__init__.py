@@ -17,9 +17,10 @@ def get_yaml_config(file_path: Path) -> Optional[dict]:
 
 # Define project base directory
 PROJECT_DIR = Path(__file__).resolve().parents[1]
+
+## Define the two S3 buckets, one for the UK data service data and one for the more general mission goal data.
 DS_BUCKET = "afs-uk-data-service"
 S3_BUCKET = "afs-mission-goal"
-
 
 # Define log output locations
 info_out = str(PROJECT_DIR / "info.log")
