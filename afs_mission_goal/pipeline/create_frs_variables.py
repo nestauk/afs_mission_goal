@@ -4,6 +4,7 @@ from afs_mission_goal.getters.uk_data_service.raw.family_resources_survey import
 from afs_mission_goal.getters.uk_data_service.misc.get_frs_variables import (
     get_frs_variables_dict,
 )
+from afs_mission_goal.utils.preprocessing import preprocess_strings
 from afs_mission_goal.utils.google_utils import access_google_sheet
 import numpy as np
 import pandas as pd
@@ -56,10 +57,10 @@ def create_frs_dataframes(
     dictionary = raw_frs_dict["dictnary"][["VARIABLE", "LABEL"]].copy()
     dictionary["VARIABLE"] = dictionary["VARIABLE"].str.upper()
     dictionary["LABEL"] = (
-        dictionary["LABEL"]
-        .str.replace(r"[^\w\s]", "", regex=True)
-        .str.replace(r"\s+", "_", regex=True)
-        .str.lower()
+        preprocess_strings(dictionary["LABEL"])
+        #     .str.replace(r"[^\w\s]", "", regex=True)
+        #     .str.replace(r"\s+", "_", regex=True)
+        #     .str.lower()
     )
     dictionary_dict = dictionary.set_index("VARIABLE")["LABEL"].to_dict()
 
@@ -111,20 +112,31 @@ if __name__ == "__main__":
     demographics = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Demographics", row_names=False
     )
+    financial_planning = access_google_sheet(
+        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc",
+        "Financial_Planning",
+        row_names=False,
+    )
+
     average_stats = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Average_Stats", row_names=False
     )
 
     # Combine the google sheets into one
     all_vars = (
-        pd.concat([incomings, outgoings, demographics], axis=0, ignore_index=True)[
-            ["Variable", "Dataset", "Original"]
-        ]
+        pd.concat(
+            [incomings, outgoings, financial_planning, demographics],
+            axis=0,
+            ignore_index=True,
+        )[["Variable", "Dataset", "Original"]]
         .replace("", np.nan)
         .dropna(subset=["Original", "Dataset"])
     )
-    all_vars = all_vars[all_vars.Original != "SERNUM"]
-
+    all_vars = (
+        all_vars[all_vars.Original != "SERNUM"]
+        .drop_duplicates(subset=["Original"], keep="first")
+        .reset_index(drop=True)
+    )
     # Create the FRS dataframes
     print("Creating the FRS dataframes")
     frs_vars_final = create_frs_dataframes(
@@ -133,6 +145,7 @@ if __name__ == "__main__":
 
     # Save the dataframes
     print("Saving the dataframes")
+    print(frs_vars_final.keys())
     for key in frs_vars_final.keys():
         S3.upload_obj(
             frs_vars_final[key],
