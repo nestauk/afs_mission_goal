@@ -4,41 +4,16 @@ To read in the Family Resources Survey datasets from the UK Data Service, you ha
 
 import pandas as pd
 from nesta_ds_utils.loading_saving.S3 import download_obj
+from afs_mission_goal import DS_BUCKET, config
+
+frs_datasets = config["frs_datasets"]
 
 
-BUCKET = "afs-uk-data-service"
-frs_datasets = [
-    "accounts",
-    "adult",
-    "assets",
-    "benefits",
-    "benefit_unit",
-    "care",
-    "child",
-    "childcare",
-    "dictionary",
-    "endowment",
-    "ext_child",
-    "frs2223",
-    "gov_pay",
-    "household",
-    "job",
-    "maint",
-    "mort_cont",
-    "mortgage",
-    "odd_job",
-    "owner",
-    "pension_provider",
-    "pension",
-    "rent_cont",
-    "renter",
-    "tables",
-]
-
-
-def get_all_datasets() -> dict:
+def get_all_datasets(frs_datasets: dict) -> dict:
     """
     Function to load all datasets from the Family Resources Survey from the UK Data Service.
+    Args:
+        frs_datasets (dict): Dictionary of all datasets from the Family Resources Survey
     Returns:
         dict: Dictionary of all datasets (in the format of dataframes) from the Family Resources Survey.
     """
@@ -46,7 +21,7 @@ def get_all_datasets() -> dict:
     for dataset in frs_datasets:
         path = f"data/processed/family_resources_survey_{dataset}.csv"
         dictionary_of_datasets[dataset] = download_obj(
-            BUCKET, path_from=path, download_as="dataframe"
+            DS_BUCKET, path_from=path, download_as="dataframe"
         )
     return dictionary_of_datasets
 
@@ -62,4 +37,4 @@ def get_individual_dataset(dataset: str) -> pd.DataFrame:
         pd.DataFrame: A dataframe of the specified dataset.
     """
     path = f"data/processed/family_resources_survey_{dataset}.csv"
-    return download_obj(BUCKET, path_from=path, download_as="dataframe")
+    return download_obj(DS_BUCKET, path_from=path, download_as="dataframe")

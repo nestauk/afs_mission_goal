@@ -104,6 +104,11 @@ if __name__ == "__main__":
     outgoings = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Outgoings", row_names=False
     )
+    financial_planning = access_google_sheet(
+        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc",
+        "Financial_Planning",
+        row_names=False,
+    )
     demographics = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Demographics", row_names=False
     )
