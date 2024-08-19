@@ -43,3 +43,25 @@ def get_lowincome_0_5() -> pd.DataFrame:
     """
     path = "data/processed/filtered_dataframes/lowincome_0_5.csv"
     return download_obj(DS_BUCKET, path_from=path, download_as="dataframe")
+
+
+def get_demographic_datasets() -> dict:
+    """
+    Function to load the variables relating to demographics from the Family Resources Survey from the UK Data Service.
+    Returns:
+        dict: Dictionary of datasets (in the format of dataframes) from the Family Resources Survey.
+    """
+    frs_datasets = config["frs_datasets"]
+    dictionary_of_datasets = {}
+    for dataset in frs_datasets:
+        try:
+            path = f"data/processed/filtered_dataframes/demographic/{dataset}_df.csv"
+            dictionary_of_datasets[dataset] = download_obj(
+                DS_BUCKET,
+                path_from=path,
+                download_as="dataframe",
+            )
+        except:
+            print(f"Dataset {dataset} not found in variables of interest.")
+            continue
+    return dictionary_of_datasets
