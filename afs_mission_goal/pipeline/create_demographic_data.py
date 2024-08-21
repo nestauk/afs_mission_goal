@@ -14,19 +14,19 @@ from typing import Dict
 from afs_mission_goal import DS_BUCKET
 
 
-def create_frs_dataframes(
+def create_demographic_dataframes(
     frs_datasets: list,
     frs_original_names: list,
-    all_vars: pd.DataFrame,
+    demographic_vars: pd.DataFrame,
     raw_frs_dict: Dict[str, pd.DataFrame],
     frs_variables: Dict[str, Dict[str, str]],
 ) -> Dict[str, pd.DataFrame]:
     """
-    Function to create the FRS dataframes with the variables of interest.
+    Function to create the filtered demographic dataframes.
     Args:
         frs_datasets (list): List of the wanted FRS dataset names.
         frs_original_names (list): List of the original FRS dataset names.
-        all_vars (pd.DataFrame): DataFrame with the variables of interest taken from the google sheets.
+        demographic_vars (pd.DataFrame): DataFrame with the variables of interest taken from the google sheets.
         raw_frs_dict (Dict[pd.DataFrame]): Dictionary with the raw FRS dataframes.
         frs_variables (Dict[Dict[str,str]]): Dictionary with the values to replace in the FRS dataframes.
     Returns:
@@ -36,12 +36,12 @@ def create_frs_dataframes(
     dict_keys = dict(zip(frs_datasets, frs_original_names))
 
     frs_vars = {}
-    for key in all_vars.Dataset.unique().tolist():
+    for key in demographic_vars.Dataset.unique().tolist():
         if dict_keys[key] in raw_frs_dict.keys():
             raw_data = raw_frs_dict[dict_keys[key]]
             raw_data.columns = raw_data.columns.str.upper()
-            cols_of_interest = ["SERNUM"] + all_vars[
-                all_vars.Dataset == key
+            cols_of_interest = ["SERNUM"] + demographic_vars[
+                demographic_vars.Dataset == key
             ].Original.tolist()
             raw_data = raw_data[cols_of_interest]
             frs_vars[key] = raw_data.replace(np.nan, "").replace("nan", "")
@@ -97,50 +97,22 @@ if __name__ == "__main__":
     frs_variables = get_frs_variables_dict()
 
     # Load the google sheets with the variables of interest
-    print("Getting the google sheets")
-    incomings = access_google_sheet(
-        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Incomings", row_names=False
-    )
-    outgoings = access_google_sheet(
-        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Outgoings", row_names=False
-    )
-    financial_planning = access_google_sheet(
-        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc",
-        "Financial_Planning",
-        row_names=False,
-    )
-    demographics = access_google_sheet(
+    print("Getting the google sheet")
+    demographic_vars = access_google_sheet(
         "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Demographics", row_names=False
     )
-    financial_planning = access_google_sheet(
-        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc",
-        "Financial_Planning",
-        row_names=False,
-    )
 
-    average_stats = access_google_sheet(
-        "1Ld3TYH-8YOSBL9K-BlOnd7JELDZGtdkk77F-l75Tlqc", "Average_Stats", row_names=False
-    )
-
-    # Combine the google sheets into one
-    all_vars = (
-        pd.concat(
-            [incomings, outgoings, financial_planning, demographics],
-            axis=0,
-            ignore_index=True,
-        )[["Variable", "Dataset", "Original"]]
+    demographic_vars = (
+        demographic_vars[demographic_vars.Original != "SERNUM"]
         .replace("", np.nan)
         .dropna(subset=["Original", "Dataset"])
-    )
-    all_vars = (
-        all_vars[all_vars.Original != "SERNUM"]
         .drop_duplicates(subset=["Original"], keep="first")
-        .reset_index(drop=True)
     )
+
     # Create the FRS dataframes
     print("Creating the FRS dataframes")
-    frs_vars_final = create_frs_dataframes(
-        frs_datasets, frs_original_names, all_vars, raw_frs_dict, frs_variables
+    frs_vars_final = create_demographic_dataframes(
+        frs_datasets, frs_original_names, demographic_vars, raw_frs_dict, frs_variables
     )
 
     # Save the dataframes
@@ -150,6 +122,6 @@ if __name__ == "__main__":
         S3.upload_obj(
             frs_vars_final[key],
             bucket=DS_BUCKET,
-            path_to=f"data/processed/filtered_dataframes/{key}_df.csv",
+            path_to=f"data/processed/filtered_dataframes/demographic/{key}_df.csv",
             kwargs_writing={"index": False},
         )
