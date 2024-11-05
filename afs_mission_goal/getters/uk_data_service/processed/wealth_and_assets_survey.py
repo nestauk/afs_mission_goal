@@ -1,7 +1,6 @@
 import pandas as pd
 from nesta_ds_utils.loading_saving.S3 import download_obj
-
-BUCKET = "afs-uk-data-service"
+from afs_mission_goal import DS_BUCKET
 
 
 def get_wealth_and_assets_survey(wave: int, granularity: str, **kwargs) -> pd.DataFrame:
@@ -20,4 +19,4 @@ def get_wealth_and_assets_survey(wave: int, granularity: str, **kwargs) -> pd.Da
         path = f"data/processed/wealth_and_assets_survey_{granularity}_wave_{wave}_{wave_5_household_month}.csv"
     else:
         path = f"data/processed/wealth_and_assets_survey_{granularity}_wave_{wave}.csv"
-    return download_obj(BUCKET, path_from=path, download_as="dataframe")
+    return download_obj(DS_BUCKET, path_from=path, download_as="dataframe")

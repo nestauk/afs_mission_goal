@@ -8,7 +8,7 @@ import requests
 import json
 from typing import Any
 
-BUCKET = "afs-mission-indicators"
+from afs_mission_goal import DS_BUCKET
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ def s3_exists(path: str, **kwargs) -> bool:
     Returns:
         bool: True or False if the file exists in S3.
     """
-    bucket = kwargs.get("bucket", BUCKET)
+    bucket = kwargs.get("bucket", DS_BUCKET)
     path = "data/" + path
     try:
         s3.head_object(Bucket=bucket, Key=path)
@@ -46,7 +46,7 @@ def data_from_s3(path: str, filename: str, **kwargs) -> Any:
     Returns:
         Any: Returns data from 'data/{path}' from 'BUCKET' in S3.
     """
-    bucket = kwargs.get("bucket", BUCKET)
+    bucket = kwargs.get("bucket", DS_BUCKET)
     if s3_exists(path, bucket=bucket) == True:
         object_path = "data/" + path
 
@@ -67,7 +67,7 @@ def load_from_s3(path: str, **kwargs) -> Any:
     Returns:
         Any: Data from 'data/{path}' in S3 'BUCKET'.
     """
-    bucket = kwargs.get("bucket", BUCKET)
+    bucket = kwargs.get("bucket", DS_BUCKET)
     header = kwargs.get("header", 0)
     index_col = kwargs.get("index_col", None)
     if fnmatch(path, "*.xlsm") or fnmatch(path, "*.xlsx"):
@@ -94,7 +94,7 @@ def load_from_s3(path: str, **kwargs) -> Any:
         return df
     elif fnmatch(path, "*.geojson"):
         object_path = "data/" + path
-        geojson = s3.get_object(Bucket=BUCKET, Key=object_path)
+        geojson = s3.get_object(Bucket=bucket, Key=object_path)
         geojson = geojson["Body"].read().decode("utf-8")
         return json.loads(geojson)
     else:

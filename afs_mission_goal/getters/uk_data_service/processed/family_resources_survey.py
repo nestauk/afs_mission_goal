@@ -4,9 +4,9 @@ To read in the Family Resources Survey datasets from the UK Data Service, you ha
 
 import pandas as pd
 from nesta_ds_utils.loading_saving.S3 import download_obj
-from afs_mission_goal import DS_BUCKET, frs_config
+from afs_mission_goal import DS_BUCKET, config
 
-frs_datasets = frs_config["frs_datasets"]
+frs_datasets = config["frs_datasets"]
 
 
 def get_all_datasets(frs_datasets: dict) -> dict:
