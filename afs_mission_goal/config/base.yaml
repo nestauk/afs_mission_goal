@@ -1,4 +1,5 @@
-frs_datasets: [
+frs_datasets:
+  [
     "accounts",
     "adult",
     "assets",
@@ -23,33 +24,34 @@ frs_datasets: [
     "pension",
     "rent_cont",
     "renter",
-    "tables"
-    ]
+    "tables",
+  ]
 
-frs_original_names: [
-  "accounts",
-  "adult",
-  "assets",
-  "benefits",
-  "benunit",
-  "care",
-  "child",
-  "chldcare",
-  "dictnary",
-  "endowmnt",
-  "extchild",
-  "frs2223",
-  "govpay",
-  "househol",
-  "job",
-  "maint",
-  "mortcont",
-  "mortgage",
-  "oddjob",
-  "owner",
-  "penprov",
-  "pension",
-  "rentcont",
-  "renter",
-  "tables",
-]
+frs_original_names:
+  [
+    "accounts",
+    "adult",
+    "assets",
+    "benefits",
+    "benunit",
+    "care",
+    "child",
+    "chldcare",
+    "dictnary",
+    "endowmnt",
+    "extchild",
+    "frs2223",
+    "govpay",
+    "househol",
+    "job",
+    "maint",
+    "mortcont",
+    "mortgage",
+    "oddjob",
+    "owner",
+    "penprov",
+    "pension",
+    "rentcont",
+    "renter",
+    "tables",
+  ]

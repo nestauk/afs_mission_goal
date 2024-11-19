@@ -38,3 +38,9 @@ logger = logging.getLogger(__name__)
 # base/global config
 _base_config_path = Path(__file__).parent.resolve() / "config/base.yaml"
 config = get_yaml_config(_base_config_path)
+
+# Scottish health review conversion config
+_health_review_config_path = (
+    Path(__file__).parent.resolve() / "config/chps_review_conversion.yaml"
+)
+health_review_config = get_yaml_config(_health_review_config_path)

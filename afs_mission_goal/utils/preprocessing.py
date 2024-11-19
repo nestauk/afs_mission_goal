@@ -3,6 +3,33 @@ import numpy as np
 import geopandas as gpd
 
 
+def remove_nan_rows_and_columns(df) -> pd.DataFrame:
+    """
+    Remove rows and columns from a DataFrame that contain only NaN values.
+
+    This function drops any rows or columns in the input DataFrame that are entirely filled with NaN values,
+    streamlining the DataFrame to include only rows and columns with meaningful data.
+
+    Parameters:
+    ----------
+    df : pandas.DataFrame
+        The input DataFrame from which rows and columns with only NaN values should be removed.
+
+    Returns:
+    -------
+    pandas.DataFrame
+        A DataFrame with all-NaN rows and columns removed.
+
+    Notes:
+    ------
+    - The function modifies the input DataFrame in place, so the original DataFrame will be affected unless it is copied beforehand.
+    """
+    # Remove the columns and rows that are all NaN
+    df = df.dropna(axis=0, how="all")
+    df = df.dropna(axis=1, how="all")
+    return df
+
+
 def preprocess_strings(strings: pd.Series) -> pd.Series:
     """Cleaning list of strings; removing punctuation and extra spaces,
     making the text lower case and placing _ for the remaining whitespace.
