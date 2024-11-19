@@ -15,27 +15,13 @@ if __name__ == "__main__":
     lac = get_chps_data_lac()
     eng = get_chps_data_eng()
 
-    ethnicity_clean = clean_chps(ethnicity)
-    lac_clean = clean_chps(lac)
-    eng_clean = clean_chps(eng)
+    dictionary_of_dataframes = {"ethnicity": ethnicity, "lac": lac, "eng": eng}
 
-    upload_obj(
-        obj=ethnicity_clean,
-        bucket=S3_BUCKET,
-        path_to=f"scotland/data/chps_aggregated/processed/ethnicity_developmental_breakdown.csv",
-        kwargs_writing={"index": False},
-    )
-
-    upload_obj(
-        obj=lac_clean,
-        bucket=S3_BUCKET,
-        path_to=f"scotland/data/chps_aggregated/processed/lac_developmental_breakdown.csv",
-        kwargs_writing={"index": False},
-    )
-
-    upload_obj(
-        obj=eng_clean,
-        bucket=S3_BUCKET,
-        path_to=f"scotland/data/chps_aggregated/processed/eng_developmental_breakdown.csv",
-        kwargs_writing={"index": False},
-    )
+    for df_name, df in dictionary_of_dataframes.items():
+        df_clean = clean_chps(df)
+        upload_obj(
+            obj=df_clean,
+            bucket=S3_BUCKET,
+            path_to=f"scotland/data/chps_aggregated/processed/{df_name}_developmental_breakdown.csv",
+            kwargs_writing={"index": False},
+        )

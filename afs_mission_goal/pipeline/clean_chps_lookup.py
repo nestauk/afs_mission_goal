@@ -1,10 +1,7 @@
 import pandas as pd
 from nesta_ds_utils.loading_saving.S3 import upload_obj
 
-from afs_mission_goal.utils.preprocessing import (
-    preprocess_strings,
-    remove_nan_rows_and_columns,
-)
+from afs_mission_goal.utils.preprocessing import remove_nan_rows_and_columns
 from afs_mission_goal.getters.chps.raw.get_chps_lookup import get_chps_lookup
 
 from afs_mission_goal import S3_BUCKET
