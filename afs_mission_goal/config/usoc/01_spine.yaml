@@ -1,0 +1,80 @@
+# Columns for each dataset of interest
+# XWAVEID
+xwaveid_fixed_cols: 
+  ['pidp', 'psu', 'strata', 'sampst', 'memorig', 'hhorig']
+xwaveid_end_cols: 
+  ['hidp', 'memorig', 'hhorig', 'pno', 'ivfio', 'ivfho']
+
+# XWAVEDAT
+xwavedat_fixed_cols: 
+  [
+    'pidp', 'sex_dv', 'ethn_dv', 'doby_dv', 'dobm_dv', 'scend_dv', 'fwenum_dv', 
+    'fwintvd_dv', 'lwenum_dv', 'lwintvd_dv', 'bornuk_dv', 'ukborn', 'plbornc_all', 
+    'school_dv', 'feend_dv'
+  ]
+
+# INDALL
+indall_fixed_cols: 
+  [
+    'pidp', 'wave', 'age_dv', 'gor_dv', 'country', 'urban_dv', 'mnpid', 'fnpid', 
+    'mnspid', 'fnspid', 'npns_dv', 'marstat_dv'
+  ]
+indall_start_cols: 
+  ['imd', 'intdat']
+indall_end_cols: 
+  ['xw', 'lw']
+
+# INDRESP
+indresp_fixed_cols: 
+  [
+    'pidp', 'wave', 'yellkid', 'praisekid', 'slapkid', 'socialkid', 'cuddlekid', 
+    'dinner', 'ccare', 'benctc', 'finnow', 'scghq1_dv', 'scghq2_dv', 'sf12mcs_dv', 
+    'sf12pcs_dv', 'health', 'qfhigh_dv', 'jbstat', 'englang', 'engread', 'readdif', 
+    'engspk', 'spkdif', 'engtel', 'teldif', 'engform', 'formdif', 'jbsoc00', 
+    'jbnssec3_dv', 'jbnssec5_dv', 'jbnssec8_dv', 'jbnssec_dv', 'benhou1', 'othben8', 
+    'btype2', 'benbase1', 'benunemp1', 'benbase2', 'btype5', 'benbase3', 'benbase4', 
+    'benhou5', 'bentax6', 'benunemp3', 'bentax1', 'othben5'
+  ]
+indresp_start_cols: 
+  ['bendis', 'benpen']
+
+# HHRESP
+hhresp_fixed_cols: 
+  [
+    'hidp', 'wave', 'ieqmoecd_dv', 'cdeptrp', 'xphsdba', 'nkids_dv', 'hhsize', 
+    'hhtype_dv', 'tenure_dv', 'rentgrs_dv', 'rent_dv', 'xpmg_dv', 'xpmgint_dv', 
+    'houscost1_dv', 'houscost2_dv'
+  ]
+hhresp_start_cols: 
+  ['fihhm', 'matdep', 'cdelply', 'cdepdo', 'cdephave']
+
+# PEACH PREGNANCY
+peachpreg_fixed_cols: 
+  ['pidp', 'wave_pregnancy', 'lchmulti']
+peachpreg_start_cols: 
+  ['preg', 'smk', 'ae']
+
+# PEACH NEWBORN
+peachnb_fixed_cols: 
+  ['pidp', 'wave_newborn']
+peachnb_start_cols: 
+  ['bw', 'brf', 'nb', 'chdnb']
+
+# PEACH PARSTYLE
+peachparstyle_fixed_cols: 
+  ['pidp', 'wave_parstyle', 'pidp_par1', 'pidp_par2']
+peachparstyle_start_cols: 
+  ['ps']
+
+# CHILD
+child_fixed_cols: 
+  [
+    'pidp', 'wave', 'cdcond', 'cddis', 'mealsreg', 'bedreg', 'send', 'senspt'
+  ]
+child_start_cols: 
+  [
+    'cdvl', 'chs', 'cd', 'wrkch2', 'wrkch3', 'ccprovider', 'cchours'
+  ]
+child_end_cols: 
+  ['xw', 'lw', 'li']
+

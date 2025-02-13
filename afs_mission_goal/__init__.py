@@ -44,3 +44,9 @@ _health_review_config_path = (
     Path(__file__).parent.resolve() / "config/chps_review_conversion.yaml"
 )
 health_review_config = get_yaml_config(_health_review_config_path)
+
+# USoc configs
+_usoc_config_01 = Path(__file__).parent.resolve() / "config/usoc/01_spine.yaml"
+usoc_config_01 = get_yaml_config(_usoc_config_01)
+_usoc_config_03 = Path(__file__).parent.resolve() / "config/usoc/03_family.yaml"
+usoc_config_03 = get_yaml_config(_usoc_config_03)

@@ -1,0 +1,15 @@
+# Variables for use in the Family dataset
+
+# Variables for the xwave data
+parents_xwave: ["scend_dv", "school_dv", "feend_dv"]
+both_xwave: [
+    "pidp", "sampst", "memorig", "sex_dv", "ethn_dv", "int_date", "fwenum_dv", 
+    "fwintvd_dv", "lwenum_dv", "lwintvd_dv", "pno", "ivfho", "ivfio", "bornuk_dv", 
+    "ukborn", "plbornc_all", "dob_date"
+]
+hhvars_xwave: ["psu", "strata", "hhorig", "hidp"]
+
+# Variables for indall data
+parents_indall: ["marstat_dv"]
+child_indall: ["mnpid", "mnspid", "fnpid", "fnspid", "npns_dv"]
+both_indall: ["age_dv", "iviolw"]
